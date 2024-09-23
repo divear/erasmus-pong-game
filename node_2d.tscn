@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0pe463hppof7"]
+
+[ext_resource type="Script" path="res://ball.gd" id="1_fiq7h"]
+[ext_resource type="Texture2D" uid="uid://bylujiv2hgyj6" path="res://icon.svg" id="2_xm4ds"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxt3f"]
+size = Vector2(127, 124)
+
+[sub_resource type="GDScript" id="GDScript_1fgoo"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+
+func _physics_process(delta: float) -> void:
+	## Add the gravity.
+	#if not is_on_floor():
+		#velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis(\"ui_first_up\", \"ui_first_down\")
+	if direction:
+		velocity.y = direction * SPEED
+	else:
+		velocity.y = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xiar2"]
+size = Vector2(74, 172.5)
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(0, -4)
+
+[node name="ball" type="StaticBody2D" parent="."]
+position = Vector2(308, 144)
+script = ExtResource("1_fiq7h")
+
+[node name="Sprite2D" type="Sprite2D" parent="ball"]
+position = Vector2(-1, -1)
+texture = ExtResource("2_xm4ds")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
+position = Vector2(-2, -1)
+shape = SubResource("RectangleShape2D_bxt3f")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = SubResource("GDScript_1fgoo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(70, 310)
+shape = SubResource("RectangleShape2D_xiar2")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(72, 313)
+scale = Vector2(0.601562, 1.34375)
+texture = ExtResource("2_xm4ds")
