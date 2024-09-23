@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0pe463hppof7"]
+[gd_scene load_steps=7 format=3 uid="uid://b0pe463hppof7"]
 
 [ext_resource type="Script" path="res://ball.gd" id="1_fiq7h"]
 [ext_resource type="Texture2D" uid="uid://bylujiv2hgyj6" path="res://icon.svg" id="2_xm4ds"]
+[ext_resource type="Script" path="res://player_right.gd" id="3_8k1qs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bxt3f"]
 size = Vector2(127, 124)
@@ -52,14 +53,39 @@ texture = ExtResource("2_xm4ds")
 position = Vector2(-2, -1)
 shape = SubResource("RectangleShape2D_bxt3f")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="PlayerLeft" type="CharacterBody2D" parent="."]
 script = SubResource("GDScript_1fgoo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerLeft"]
 position = Vector2(70, 310)
 shape = SubResource("RectangleShape2D_xiar2")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="PlayerLeft"]
 position = Vector2(72, 313)
 scale = Vector2(0.601562, 1.34375)
 texture = ExtResource("2_xm4ds")
+
+[node name="player_right" type="CharacterBody2D" parent="."]
+position = Vector2(1005, -13)
+script = ExtResource("3_8k1qs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_right"]
+position = Vector2(70, 310)
+shape = SubResource("RectangleShape2D_xiar2")
+
+[node name="Sprite2D" type="Sprite2D" parent="player_right"]
+position = Vector2(72, 313)
+scale = Vector2(0.601562, 1.34375)
+texture = ExtResource("2_xm4ds")
+
+[node name="ball2" type="StaticBody2D" parent="."]
+position = Vector2(616, 288)
+script = ExtResource("1_fiq7h")
+
+[node name="Sprite2D" type="Sprite2D" parent="ball2"]
+position = Vector2(-1, -1)
+texture = ExtResource("2_xm4ds")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ball2"]
+position = Vector2(-2, -1)
+shape = SubResource("RectangleShape2D_bxt3f")
