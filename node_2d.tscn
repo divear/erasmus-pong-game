@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0pe463hppof7"]
+[gd_scene load_steps=9 format=3 uid="uid://b0pe463hppof7"]
 
 [ext_resource type="Script" path="res://ball.gd" id="1_fiq7h"]
+[ext_resource type="Texture2D" uid="uid://snudtjnl2dg" path="res://ball.png" id="2_312cd"]
 [ext_resource type="Texture2D" uid="uid://bylujiv2hgyj6" path="res://icon.svg" id="2_xm4ds"]
 [ext_resource type="Script" path="res://player_right.gd" id="3_8k1qs"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxt3f"]
-size = Vector2(127, 124)
+[sub_resource type="CircleShape2D" id="CircleShape2D_8yrm8"]
+radius = 61.3922
 
 [sub_resource type="GDScript" id="GDScript_1fgoo"]
 script/source = "extends CharacterBody2D
@@ -19,10 +20,6 @@ func _physics_process(delta: float) -> void:
 	## Add the gravity.
 	#if not is_on_floor():
 		#velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -38,20 +35,25 @@ func _physics_process(delta: float) -> void:
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xiar2"]
 size = Vector2(74, 172.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iuonb"]
+size = Vector2(1158, 18)
+
 [node name="Node2D" type="Node2D"]
 position = Vector2(0, -4)
 
-[node name="ball" type="StaticBody2D" parent="."]
-position = Vector2(308, 144)
+[node name="ball" type="CharacterBody2D" parent="."]
+position = Vector2(603, 382)
+collision_priority = 3.0
 script = ExtResource("1_fiq7h")
 
 [node name="Sprite2D" type="Sprite2D" parent="ball"]
-position = Vector2(-1, -1)
-texture = ExtResource("2_xm4ds")
+position = Vector2(-2, -1.5)
+scale = Vector2(0.064574, 0.0648926)
+texture = ExtResource("2_312cd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
 position = Vector2(-2, -1)
-shape = SubResource("RectangleShape2D_bxt3f")
+shape = SubResource("CircleShape2D_8yrm8")
 
 [node name="PlayerLeft" type="CharacterBody2D" parent="."]
 script = SubResource("GDScript_1fgoo")
@@ -65,27 +67,45 @@ position = Vector2(72, 313)
 scale = Vector2(0.601562, 1.34375)
 texture = ExtResource("2_xm4ds")
 
-[node name="player_right" type="CharacterBody2D" parent="."]
+[node name="PlayerRight" type="CharacterBody2D" parent="."]
 position = Vector2(1005, -13)
 script = ExtResource("3_8k1qs")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player_right"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerRight"]
 position = Vector2(70, 310)
 shape = SubResource("RectangleShape2D_xiar2")
 
-[node name="Sprite2D" type="Sprite2D" parent="player_right"]
+[node name="Sprite2D" type="Sprite2D" parent="PlayerRight"]
 position = Vector2(72, 313)
 scale = Vector2(0.601562, 1.34375)
 texture = ExtResource("2_xm4ds")
 
-[node name="ball2" type="StaticBody2D" parent="."]
+[node name="wall" type="StaticBody2D" parent="."]
 position = Vector2(616, 288)
-script = ExtResource("1_fiq7h")
 
-[node name="Sprite2D" type="Sprite2D" parent="ball2"]
-position = Vector2(-1, -1)
-texture = ExtResource("2_xm4ds")
+[node name="bottom" type="CollisionShape2D" parent="wall"]
+position = Vector2(-30, 374)
+shape = SubResource("RectangleShape2D_iuonb")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ball2"]
-position = Vector2(-2, -1)
-shape = SubResource("RectangleShape2D_bxt3f")
+[node name="top" type="CollisionShape2D" parent="wall"]
+position = Vector2(-31, -314)
+shape = SubResource("RectangleShape2D_iuonb")
+
+[node name="sides" type="Area2D" parent="."]
+position = Vector2(616, 288)
+
+[node name="left" type="CollisionShape2D" parent="sides"]
+position = Vector2(-631, -74)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_iuonb")
+
+[node name="right" type="CollisionShape2D" parent="sides"]
+position = Vector2(542.5, 8)
+rotation = -1.5708
+shape = SubResource("RectangleShape2D_iuonb")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(616, 288)
+zoom = Vector2(0.485, 0.485)
+
+[connection signal="area_entered" from="sides" to="ball" method="_on_sides_area_entered"]
