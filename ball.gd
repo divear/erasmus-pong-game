@@ -1,30 +1,45 @@
 extends CharacterBody2D
+const SPEED = 300.0
 
-# Constants
-const SPEED = 500
-
-# Velocity variable
-#var velocity = Vector2()
+var pole
+var points1 = 0
+var points2 = 0
 
 func _ready() -> void:
-	rotation = randi()*360
+	velocity = Vector2(SPEED, SPEED)
+	pole = [velocity.x, velocity.y]
+	
+func _physics_process(delta: float) -> void:
+	move_and_slide()
+	
+	if is_on_floor() or is_on_ceiling():
+		velocity.y = - pole[0]
+		pole[0] = velocity.y
+
+	if is_on_wall():
+		velocity.x = - pole[1]
+		pole[1] = velocity.x
+
+	#print("Current Velocity: ", velocity)
 
 
-func _process(delta: float) -> void:
-	# Set velocity based on the current rotation
-	velocity = Vector2(SPEED, 0).rotated(rotation)
-
-	# Move the character and detect collision
-	var collision = move_and_collide(velocity * delta)
-
-	if collision && collision.get_collider().to_string():
-		print(collision.get_collider())
-		velocity = velocity.bounce(collision.get_normal())
-		rotation = velocity.angle()
-		move_and_collide(velocity)
-
-
-func _on_sides_area_entered(area: Area2D) -> void:
-	position.x = 100
-	position.y = 100
+func _on_sides_body_entered(body: Node2D) -> void:
+	if position.x > get_viewport().size[0]/2:
+		for child in get_tree().current_scene.get_children():
+			if child.name == 'PlayerLeftPoints':
+					points1=points1+1
+					child.text = str(points1)
+					break
+	else: 
+		for child in get_tree().current_scene.get_children():
+			if child.name == 'PlayerRightPoints':
+					points2=points2+1
+					child.text = str(points2)
+					break
+	print(points1,points2)
+	#for i in range(100):
+		#pole = [-100,0]
+	position.x = get_viewport().size[0]/2-100
+	position.y = get_viewport().size[1]/2-100
+	#pole = [velocity.x, velocity.y]
 	

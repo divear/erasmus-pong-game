@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0pe463hppof7"]
+[gd_scene load_steps=10 format=3 uid="uid://b0pe463hppof7"]
 
 [ext_resource type="Script" path="res://ball.gd" id="1_fiq7h"]
 [ext_resource type="Texture2D" uid="uid://snudtjnl2dg" path="res://ball.png" id="2_312cd"]
@@ -15,34 +15,35 @@ script/source = "extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
+#player left
 
 func _physics_process(delta: float) -> void:
-	## Add the gravity.
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction := Input.get_axis(\"ui_first_up\", \"ui_first_down\")
 	if direction:
 		velocity.y = direction * SPEED
 	else:
-		velocity.y = move_toward(velocity.x, 0, SPEED)
-
+		velocity.y = 0 #move_toward(velocity.x, 0, SPEED)
+	position.x = 0
 	move_and_slide()
 "
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xiar2"]
-size = Vector2(74, 172.5)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_60w6b"]
+radius = 40.0
+height = 182.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iuonb"]
 size = Vector2(1158, 18)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jqp4s"]
+font_size = 50
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(0, -4)
 
 [node name="ball" type="CharacterBody2D" parent="."]
-position = Vector2(603, 382)
+position = Vector2(463, 421)
 collision_priority = 3.0
 script = ExtResource("1_fiq7h")
 
@@ -58,27 +59,27 @@ shape = SubResource("CircleShape2D_8yrm8")
 [node name="PlayerLeft" type="CharacterBody2D" parent="."]
 script = SubResource("GDScript_1fgoo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerLeft"]
-position = Vector2(70, 310)
-shape = SubResource("RectangleShape2D_xiar2")
-
 [node name="Sprite2D" type="Sprite2D" parent="PlayerLeft"]
 position = Vector2(72, 313)
 scale = Vector2(0.601562, 1.34375)
 texture = ExtResource("2_xm4ds")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerLeft"]
+position = Vector2(70, 315)
+shape = SubResource("CapsuleShape2D_60w6b")
+
 [node name="PlayerRight" type="CharacterBody2D" parent="."]
 position = Vector2(1005, -13)
 script = ExtResource("3_8k1qs")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerRight"]
-position = Vector2(70, 310)
-shape = SubResource("RectangleShape2D_xiar2")
 
 [node name="Sprite2D" type="Sprite2D" parent="PlayerRight"]
 position = Vector2(72, 313)
 scale = Vector2(0.601562, 1.34375)
 texture = ExtResource("2_xm4ds")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerRight"]
+position = Vector2(74, 312)
+shape = SubResource("CapsuleShape2D_60w6b")
 
 [node name="wall" type="StaticBody2D" parent="."]
 position = Vector2(616, 288)
@@ -91,21 +92,43 @@ shape = SubResource("RectangleShape2D_iuonb")
 position = Vector2(-31, -314)
 shape = SubResource("RectangleShape2D_iuonb")
 
-[node name="sides" type="Area2D" parent="."]
-position = Vector2(616, 288)
+[node name="sides" type="Area2D" parent="wall"]
 
-[node name="left" type="CollisionShape2D" parent="sides"]
+[node name="left" type="CollisionShape2D" parent="wall/sides"]
 position = Vector2(-631, -74)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_iuonb")
 
-[node name="right" type="CollisionShape2D" parent="sides"]
+[node name="right" type="CollisionShape2D" parent="wall/sides"]
 position = Vector2(542.5, 8)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_iuonb")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(616, 288)
-zoom = Vector2(0.485, 0.485)
+position = Vector2(570, 301)
 
-[connection signal="area_entered" from="sides" to="ball" method="_on_sides_area_entered"]
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(-92, 314)
+scale = Vector2(1.375, 6.10937)
+texture = ExtResource("2_xm4ds")
+
+[node name="Icon" type="Sprite2D" parent="Icon"]
+position = Vector2(994.182, 283.593)
+scale = Vector2(1.375, 6.07031)
+texture = ExtResource("2_xm4ds")
+
+[node name="PlayerLeftPoints" type="Label" parent="."]
+offset_right = 208.0
+offset_bottom = 69.0
+text = "5 points"
+label_settings = SubResource("LabelSettings_jqp4s")
+
+[node name="PlayerRightPoints" type="Label" parent="."]
+offset_left = 940.0
+offset_top = -19.0
+offset_right = 1148.0
+offset_bottom = 50.0
+text = "5 points"
+label_settings = SubResource("LabelSettings_jqp4s")
+
+[connection signal="body_entered" from="wall/sides" to="ball" method="_on_sides_body_entered"]
