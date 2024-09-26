@@ -1,11 +1,18 @@
 extends CharacterBody2D
-const SPEED = 300.0
+var SPEED = 300.0
+#var login = preload("res://control.tscn").instantiate()
+
 
 var pole
 var points1 = 0
 var points2 = 0
 
+# make the bs with the points work
+# make the title look good
+
 func _ready() -> void:
+	#get_tree().root.add_child(login)
+	#hide()
 	velocity = Vector2(SPEED, SPEED)
 	pole = [velocity.x, velocity.y]
 	
@@ -36,10 +43,27 @@ func _on_sides_body_entered(body: Node2D) -> void:
 					points2=points2+1
 					child.text = str(points2)
 					break
-	print(points1,points2)
-	#for i in range(100):
-		#pole = [-100,0]
-	position.x = get_viewport().size[0]/2-100
-	position.y = get_viewport().size[1]/2-100
-	#pole = [velocity.x, velocity.y]
+	#print(points1,points2)
+	#print(get_viewport().size[0]/2)
+	position.x = get_viewport().size[0]/4
+	position.y = get_viewport().size[1]/4
 	
+	
+	#pole = [10*randi(),100*randi()]
+	var rng = RandomNumberGenerator.new()
+	#print(rng.randi_range(-10, 10))
+	#while true:
+	velocity.x = rng.randi_range(-SPEED,SPEED)
+	velocity.y = SPEED-velocity.x
+	
+	# check if: 1. x is too small 2. 
+	#if abs(int(velocity.x))>SPEED/2-20 or abs(int(velocity.x<SPEED/2+20)):
+		#velocity.x += SPEED*0.5
+		#print(velocity.x)
+			#return
+	print(velocity.x)
+	if abs(velocity.x) < SPEED:
+		velocity.x += SPEED*2
+		
+	
+		

@@ -1,12 +1,21 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0pe463hppof7"]
+[gd_scene load_steps=12 format=3 uid="uid://b0pe463hppof7"]
 
 [ext_resource type="Script" path="res://ball.gd" id="1_fiq7h"]
 [ext_resource type="Texture2D" uid="uid://snudtjnl2dg" path="res://ball.png" id="2_312cd"]
 [ext_resource type="Texture2D" uid="uid://bylujiv2hgyj6" path="res://icon.svg" id="2_xm4ds"]
 [ext_resource type="Script" path="res://player_right.gd" id="3_8k1qs"]
+[ext_resource type="Texture2D" uid="uid://bfciac7aggedx" path="res://schlaeger.png" id="3_pu76d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8yrm8"]
-radius = 61.3922
+radius = 27.6586
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8oqlf"]
+particle_flag_disable_z = true
+angle_min = -143.0
+angle_max = 534.5
+angular_velocity_min = -25.95
+angular_velocity_max = 6.84998
+gravity = Vector3(0, 0, 0)
 
 [sub_resource type="GDScript" id="GDScript_1fgoo"]
 script/source = "extends CharacterBody2D
@@ -24,15 +33,17 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y = 0 #move_toward(velocity.x, 0, SPEED)
 	position.x = 0
+	position.x = (get_viewport().size[0]/1000)
+
 	move_and_slide()
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_60w6b"]
-radius = 40.0
-height = 182.0
+radius = 5.0
+height = 110.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iuonb"]
-size = Vector2(1158, 18)
+size = Vector2(1216, 18)
 
 [sub_resource type="LabelSettings" id="LabelSettings_jqp4s"]
 font_size = 50
@@ -47,45 +58,51 @@ position = Vector2(463, 421)
 collision_priority = 3.0
 script = ExtResource("1_fiq7h")
 
-[node name="Sprite2D" type="Sprite2D" parent="ball"]
-position = Vector2(-2, -1.5)
-scale = Vector2(0.064574, 0.0648926)
-texture = ExtResource("2_312cd")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
 position = Vector2(-2, -1)
 shape = SubResource("CircleShape2D_8yrm8")
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ball"]
+amount = 300
+amount_ratio = 0.5095
+process_material = SubResource("ParticleProcessMaterial_8oqlf")
+
+[node name="Sprite2D" type="Sprite2D" parent="ball"]
+position = Vector2(-2, -1.5)
+scale = Vector2(0.0295964, 0.0284781)
+texture = ExtResource("2_312cd")
+
 [node name="PlayerLeft" type="CharacterBody2D" parent="."]
 script = SubResource("GDScript_1fgoo")
 
-[node name="Sprite2D" type="Sprite2D" parent="PlayerLeft"]
-position = Vector2(72, 313)
-scale = Vector2(0.601562, 1.34375)
-texture = ExtResource("2_xm4ds")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerLeft"]
-position = Vector2(70, 315)
+position = Vector2(-6, 351)
 shape = SubResource("CapsuleShape2D_60w6b")
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerLeft"]
+position = Vector2(-6, 351)
+scale = Vector2(0.206897, 0.311111)
+texture = ExtResource("3_pu76d")
 
 [node name="PlayerRight" type="CharacterBody2D" parent="."]
-position = Vector2(1005, -13)
+position = Vector2(981, 173)
 script = ExtResource("3_8k1qs")
 
-[node name="Sprite2D" type="Sprite2D" parent="PlayerRight"]
-position = Vector2(72, 313)
-scale = Vector2(0.601562, 1.34375)
-texture = ExtResource("2_xm4ds")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerRight"]
-position = Vector2(74, 312)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerRight"]
+position = Vector2(125, 355)
 shape = SubResource("CapsuleShape2D_60w6b")
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerRight"]
+position = Vector2(124.666, 355)
+rotation = -3.14159
+scale = Vector2(0.185643, 0.309492)
+texture = ExtResource("3_pu76d")
 
 [node name="wall" type="StaticBody2D" parent="."]
 position = Vector2(616, 288)
 
 [node name="bottom" type="CollisionShape2D" parent="wall"]
-position = Vector2(-30, 374)
+position = Vector2(-30, 379)
 shape = SubResource("RectangleShape2D_iuonb")
 
 [node name="top" type="CollisionShape2D" parent="wall"]
@@ -95,40 +112,46 @@ shape = SubResource("RectangleShape2D_iuonb")
 [node name="sides" type="Area2D" parent="wall"]
 
 [node name="left" type="CollisionShape2D" parent="wall/sides"]
-position = Vector2(-631, -74)
+position = Vector2(-645, -74)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_iuonb")
 
 [node name="right" type="CollisionShape2D" parent="wall/sides"]
-position = Vector2(542.5, 8)
+position = Vector2(575, 15)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_iuonb")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(570, 301)
+position = Vector2(581, 324)
+offset = Vector2(0, -3.605)
+zoom = Vector2(1.6, 1.6)
 
 [node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(-92, 314)
+visible = false
+position = Vector2(-109, 324)
 scale = Vector2(1.375, 6.10937)
 texture = ExtResource("2_xm4ds")
 
 [node name="Icon" type="Sprite2D" parent="Icon"]
-position = Vector2(994.182, 283.593)
+position = Vector2(1027.64, 287.427)
 scale = Vector2(1.375, 6.07031)
 texture = ExtResource("2_xm4ds")
 
 [node name="PlayerLeftPoints" type="Label" parent="."]
-offset_right = 208.0
-offset_bottom = 69.0
-text = "5 points"
+offset_left = 24.0
+offset_top = -10.0
+offset_right = 232.0
+offset_bottom = 59.0
+text = "0
+"
 label_settings = SubResource("LabelSettings_jqp4s")
 
 [node name="PlayerRightPoints" type="Label" parent="."]
-offset_left = 940.0
-offset_top = -19.0
-offset_right = 1148.0
-offset_bottom = 50.0
-text = "5 points"
+offset_left = 1100.0
+offset_top = -20.0
+offset_right = 1194.0
+offset_bottom = 49.0
+text = "0"
 label_settings = SubResource("LabelSettings_jqp4s")
 
 [connection signal="body_entered" from="wall/sides" to="ball" method="_on_sides_body_entered"]
