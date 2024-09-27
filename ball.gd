@@ -53,7 +53,7 @@ func _on_sides_body_entered(body: Node2D) -> void:
 	var rng = RandomNumberGenerator.new()
 	#print(rng.randi_range(-10, 10))
 	#while true:
-	velocity.x = rng.randi_range(-SPEED,SPEED)
+	velocity.x = randi_range(-SPEED,SPEED)
 	velocity.y = SPEED-velocity.x
 	
 	# check if: 1. x is too small 2. 

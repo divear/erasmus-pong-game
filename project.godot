@@ -10,10 +10,16 @@ config_version=5
 
 [application]
 
-config/name="erasmsus pong"
+config/name="Erasmus pong"
+config/description="Naše pong hra is the best game du hast gespielt."
+config/version="4.2."
 run/main_scene="res://control.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://cuteball.png"
+
+[debug]
+
+settings/stdout/print_fps=true
 
 [display]
 

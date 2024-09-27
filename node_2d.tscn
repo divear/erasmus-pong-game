@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://b0pe463hppof7"]
+[gd_scene load_steps=13 format=3 uid="uid://b0pe463hppof7"]
 
 [ext_resource type="Script" path="res://ball.gd" id="1_fiq7h"]
-[ext_resource type="Texture2D" uid="uid://snudtjnl2dg" path="res://ball.png" id="2_312cd"]
+[ext_resource type="Texture2D" uid="uid://n5raklf6nqqx" path="res://cuteball.png" id="2_tya6x"]
 [ext_resource type="Texture2D" uid="uid://bylujiv2hgyj6" path="res://icon.svg" id="2_xm4ds"]
 [ext_resource type="Script" path="res://player_right.gd" id="3_8k1qs"]
 [ext_resource type="Texture2D" uid="uid://bfciac7aggedx" path="res://schlaeger.png" id="3_pu76d"]
+[ext_resource type="Texture2D" uid="uid://chnudmrgef102" path="res://bg.jpg" id="6_cbwc4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8yrm8"]
 radius = 27.6586
@@ -53,6 +54,11 @@ outline_color = Color(0, 0, 0, 1)
 [node name="Node2D" type="Node2D"]
 position = Vector2(0, -4)
 
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(568, 324)
+scale = Vector2(1.46894, 1.438)
+texture = ExtResource("6_cbwc4")
+
 [node name="ball" type="CharacterBody2D" parent="."]
 position = Vector2(463, 421)
 collision_priority = 3.0
@@ -68,9 +74,9 @@ amount_ratio = 0.5095
 process_material = SubResource("ParticleProcessMaterial_8oqlf")
 
 [node name="Sprite2D" type="Sprite2D" parent="ball"]
-position = Vector2(-2, -1.5)
-scale = Vector2(0.0295964, 0.0284781)
-texture = ExtResource("2_312cd")
+position = Vector2(-4, 2.38419e-07)
+scale = Vector2(0.790697, 0.813333)
+texture = ExtResource("2_tya6x")
 
 [node name="PlayerLeft" type="CharacterBody2D" parent="."]
 script = SubResource("GDScript_1fgoo")

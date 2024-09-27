@@ -1,27 +1,45 @@
-[gd_scene load_steps=7 format=3 uid="uid://c54ynq37uif7f"]
+[gd_scene load_steps=14 format=3 uid="uid://c54ynq37uif7f"]
 
 [ext_resource type="Script" path="res://control.gd" id="1_llcjn"]
+[ext_resource type="Texture2D" uid="uid://chnudmrgef102" path="res://bg.jpg" id="2_xwmax"]
+[ext_resource type="FontFile" uid="uid://cnbrc6jyjvv3x" path="res://ARCADE.TTF" id="3_vtpmn"]
 
 [sub_resource type="FontVariation" id="FontVariation_efodr"]
 
 [sub_resource type="Theme" id="Theme_dd1j1"]
 default_font = SubResource("FontVariation_efodr")
 
-[sub_resource type="FontFile" id="FontFile_b7u88"]
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/90/0/ascent = 0.0
-cache/0/90/0/descent = 0.0
-cache/0/90/0/underline_position = 0.0
-cache/0/90/0/underline_thickness = 0.0
-cache/0/90/0/scale = 1.0
-
 [sub_resource type="LabelSettings" id="LabelSettings_nvche"]
-font = SubResource("FontFile_b7u88")
+font = ExtResource("3_vtpmn")
 font_size = 90
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3ktp"]
+bg_color = Color(7.70092e-07, 0.644409, 0.91871, 1)
+
+[sub_resource type="Theme" id="Theme_s7p71"]
+Button/styles/focus = SubResource("StyleBoxFlat_c3ktp")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbey2"]
+bg_color = Color(0.682353, 0.407843, 0.792157, 0.729412)
+skew = Vector2(1, 0)
+border_color = Color(0, 0.912235, 0.919086, 1)
+border_blend = true
+corner_detail = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_817aa"]
+bg_color = Color(0.682353, 0.407843, 0.792157, 0.729412)
+skew = Vector2(1, 0)
+corner_detail = 3
+
+[sub_resource type="Theme" id="Theme_fjp75"]
+default_font = ExtResource("3_vtpmn")
+default_font_size = 100
+Button/styles/focus = SubResource("StyleBoxFlat_tbey2")
+Button/styles/hover = SubResource("StyleBoxFlat_817aa")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cj4to"]
+bg_color = Color(0.682353, 0.407843, 0.792157, 1)
+skew = Vector2(-1, 0)
 
 [sub_resource type="SystemFont" id="SystemFont_lakva"]
 
@@ -35,49 +53,66 @@ grow_vertical = 2
 theme = SubResource("Theme_dd1j1")
 script = ExtResource("1_llcjn")
 
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(959.375, 538)
+scale = Vector2(2.2954, 2.168)
+texture = ExtResource("2_xwmax")
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 814.0
-offset_top = 288.0
-offset_right = 1073.0
-offset_bottom = 412.0
+offset_top = 271.0
+offset_right = 1920.0
+offset_bottom = 395.0
 text = "PONG
 "
 label_settings = SubResource("LabelSettings_nvche")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.032
+anchor_bottom = 0.032
+offset_left = 500.0
+offset_top = 500.44
+offset_right = 1420.0
+offset_bottom = 1068.44
+scale = Vector2(0.98, 0.98)
+theme = SubResource("Theme_s7p71")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
 [node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme = SubResource("Theme_fjp75")
 text = "Play"
 
 [node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_vtpmn")
+theme_override_font_sizes/font_size = 45
+theme_override_styles/hover = SubResource("StyleBoxFlat_cj4to")
 text = "Exit"
-
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Credits
-"
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 0
-offset_left = 1542.0
-offset_top = 892.0
-offset_right = 1895.0
-offset_bottom = 1069.0
+offset_left = 1575.0
+offset_top = 24.0
+offset_right = 1903.0
+offset_bottom = 201.0
 theme_override_fonts/font = SubResource("SystemFont_lakva")
 theme_override_font_sizes/font_size = 30
 text = "Lukáš Odehnal
 Jiří Ukropec
 Selin Eroglu
 Kayed-Ibrahim Warrad"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_right = 294.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("3_vtpmn")
+text = "G.O.A.T."
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_button_button_down"]
