@@ -1,0 +1,82 @@
+[gd_scene load_steps=12 format=3 uid="uid://c0idsu58udo4f"]
+
+[ext_resource type="Script" path="res://win.gd" id="1_vxcxy"]
+[ext_resource type="Texture2D" uid="uid://chnudmrgef102" path="res://bg.jpg" id="2_r8bp0"]
+[ext_resource type="FontFile" uid="uid://cnbrc6jyjvv3x" path="res://ARCADE.TTF" id="3_7uh1h"]
+[ext_resource type="Texture2D" uid="uid://dmesbsddsmd3c" path="res://Image(1).jpg" id="3_vcqfw"]
+
+[sub_resource type="FontVariation" id="FontVariation_efodr"]
+
+[sub_resource type="Theme" id="Theme_dd1j1"]
+default_font = SubResource("FontVariation_efodr")
+
+[sub_resource type="LabelSettings" id="LabelSettings_tk00n"]
+font = ExtResource("3_7uh1h")
+font_size = 90
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r8yn5"]
+bg_color = Color(7.70092e-07, 0.644409, 0.91871, 1)
+
+[sub_resource type="Theme" id="Theme_edlby"]
+Button/styles/focus = SubResource("StyleBoxFlat_r8yn5")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_irmm0"]
+bg_color = Color(0.682353, 0.407843, 0.792157, 0.729412)
+skew = Vector2(1, 0)
+corner_detail = 3
+
+[sub_resource type="Theme" id="Theme_5nfkg"]
+default_font = ExtResource("3_7uh1h")
+default_font_size = 100
+Button/styles/focus = null
+Button/styles/hover = SubResource("StyleBoxFlat_irmm0")
+
+[node name="win1" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dd1j1")
+script = ExtResource("1_vxcxy")
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(959.375, 538)
+scale = Vector2(2.2954, 2.168)
+texture = ExtResource("2_r8bp0")
+
+[node name="Image(1)" type="Sprite2D" parent="."]
+position = Vector2(953.75, 533.75)
+scale = Vector2(1.91526, 1.92681)
+texture = ExtResource("3_vcqfw")
+
+[node name="Label" type="Label" parent="Image(1)"]
+offset_left = -374.0
+offset_top = -202.0
+offset_right = 409.0
+offset_bottom = -78.0
+text = "LEFT PLAYER IS A"
+label_settings = SubResource("LabelSettings_tk00n")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.032
+anchor_bottom = 0.032
+offset_left = 500.0
+offset_top = 820.44
+offset_right = 1420.0
+offset_bottom = 1061.44
+scale = Vector2(0.98, 0.98)
+theme = SubResource("Theme_edlby")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_5nfkg")
+text = "Play again"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]

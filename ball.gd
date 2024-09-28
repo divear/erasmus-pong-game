@@ -6,6 +6,7 @@ var SPEED = 300.0
 var pole
 var points1 = 0
 var points2 = 0
+var winPoint = 2
 
 # make the bs with the points work
 # make the title look good
@@ -36,12 +37,17 @@ func _on_sides_body_entered(body: Node2D) -> void:
 			if child.name == 'PlayerLeftPoints':
 					points1=points1+1
 					child.text = str(points1)
+					#if points1>=winPoint:
+						#$Score.text = "Player 1 is killing it!"
 					break
+
 	else: 
 		for child in get_tree().current_scene.get_children():
 			if child.name == 'PlayerRightPoints':
 					points2=points2+1
 					child.text = str(points2)
+					#if points2>=winPoint:
+						#$Score.text = "Player 2 is killing it!"
 					break
 	#print(points1,points2)
 	#print(get_viewport().size[0]/2)
@@ -62,7 +68,7 @@ func _on_sides_body_entered(body: Node2D) -> void:
 		#print(velocity.x)
 			#return
 	print(velocity.x)
-	if abs(velocity.x) < SPEED:
+	if abs(velocity.x) < SPEED/2:
 		velocity.x += SPEED*2
 		
 	

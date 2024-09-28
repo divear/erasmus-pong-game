@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c54ynq37uif7f"]
+[gd_scene load_steps=13 format=3 uid="uid://c54ynq37uif7f"]
 
 [ext_resource type="Script" path="res://control.gd" id="1_llcjn"]
 [ext_resource type="Texture2D" uid="uid://chnudmrgef102" path="res://bg.jpg" id="2_xwmax"]
@@ -13,20 +13,13 @@ default_font = SubResource("FontVariation_efodr")
 font = ExtResource("3_vtpmn")
 font_size = 90
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3ktp"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oc8x0"]
 bg_color = Color(7.70092e-07, 0.644409, 0.91871, 1)
 
 [sub_resource type="Theme" id="Theme_s7p71"]
-Button/styles/focus = SubResource("StyleBoxFlat_c3ktp")
+Button/styles/focus = SubResource("StyleBoxFlat_oc8x0")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbey2"]
-bg_color = Color(0.682353, 0.407843, 0.792157, 0.729412)
-skew = Vector2(1, 0)
-border_color = Color(0, 0.912235, 0.919086, 1)
-border_blend = true
-corner_detail = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_817aa"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y1pvo"]
 bg_color = Color(0.682353, 0.407843, 0.792157, 0.729412)
 skew = Vector2(1, 0)
 corner_detail = 3
@@ -34,8 +27,8 @@ corner_detail = 3
 [sub_resource type="Theme" id="Theme_fjp75"]
 default_font = ExtResource("3_vtpmn")
 default_font_size = 100
-Button/styles/focus = SubResource("StyleBoxFlat_tbey2")
-Button/styles/hover = SubResource("StyleBoxFlat_817aa")
+Button/styles/focus = null
+Button/styles/hover = SubResource("StyleBoxFlat_y1pvo")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cj4to"]
 bg_color = Color(0.682353, 0.407843, 0.792157, 1)
